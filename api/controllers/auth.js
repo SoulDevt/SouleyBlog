@@ -31,9 +31,6 @@ export const register = (req,res) => {
                 return res.status(200).json("User has been created")
             })
         });
-
-
-        
     })
 
 }
@@ -41,16 +38,21 @@ export const register = (req,res) => {
 export const login = (req,res) => {
     //check if the user exists already
     const q = 'SELECT * FROM users WHERE username = ?'
-    db.query(q,[req.body.name], (err,data) => {
+    db.query(q,[req.body.username], (err,data) => {
         if (err) return res.json(err)
-        if (data.length == 0) return res.status(404).json("User not found")
+        if (data.length === 0) return res.status(404).json("User not found")
 
 
         //check password
         const isPasswordCorrect = bcrypt.compareSync(req.body.password, data[0].password);
         if(!isPasswordCorrect) return res.status(400).json("Wrong username or password")
+        console.log("data:",data)
+        console.log("error:",err)
         
         //configure token JWT
+        const token = jwt.sign({id: data[0].id }, "jwtkey")
+        const {password, ...other} = data[0]
+        res.cookie('access-token', token, { httpOnly: true }).status(200).json(other)
     })
     
 }
