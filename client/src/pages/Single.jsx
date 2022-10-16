@@ -31,6 +31,14 @@ function Single() {
 
   },[postId])
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/posts/${postId}`)
+    }catch(err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div className="single">
       <div className="content">
@@ -43,11 +51,11 @@ function Single() {
           <p>Posted {moment(post.date).fromNow()}</p> 
         </div>
         {/* check username from context and username logged */}
-{ currentUser.username === post.username && <div className="edit">
+{ currentUser?.username === post.username && <div className="edit">
           <Link to={`/write?edit=2`}>
             <img src={Edit} alt="" />
           </Link>
-          <img src={Delete} alt="" />
+          <img onClick={handleDelete} src={Delete} alt="" />
         </div>}
         </div>
         <h1>{post.title}</h1>
