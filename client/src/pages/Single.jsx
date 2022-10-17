@@ -62,7 +62,7 @@ function Single() {
         {/* don't need a p tag for the post.desc because the editor give it automatic */}
         {post.desc}
       </div>
-        <Menu/>
+        <Menu cat={post.cat}/>
     </div>
   )
 }
