@@ -49,7 +49,7 @@ function Menu({cat}) {
         <h1>Others posts you may like</h1>
         {posts.map((post) => (
             <div key={post.id} className="post">
-                <img src={post.img} alt="" />
+                <img src={`../upload/${post?.img}`} alt="" />
                 <h2>{post.title}</h2>
                 <button>Read More</button>
             </div>
